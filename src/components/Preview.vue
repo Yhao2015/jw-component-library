@@ -43,7 +43,7 @@ export default {
     },
     computed: {
         previewSourceCode() {
-            return this.sourceCode.replace(/'\.\.\/\.\.\/index'/g, `'@tencent/jw'`)
+            return this.sourceCode.replace(/'\.\.\/\.\.\/index'/g, `'@tencent/jw-component-library'`)
         }
     },
     async mounted() {
