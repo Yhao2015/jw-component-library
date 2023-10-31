@@ -16,53 +16,50 @@
         :style="{ '--itemBottom': base['item-bottom'] }"
     >
         <template v-if="base.inline">
-            <template v-for="item in configData">
-                <el-form-item 
-                    :class="item.formClassName" 
-                    :label="item.label"
-                    v-if="item.show" 
-                    v-show="!item.type.includes('hidden')" 
-                    :prop="item.code"
-                    :label-width="item['label-width']"
-                >
-                    <!-- 插槽 -->
-                    <slot v-if="item.slot" :name="item.slot" :data="item"></slot>
-                    <EForm v-else :item="item" :formState="formState" :methods="methods"></EForm>
-                </el-form-item>
-            </template>
+            <el-form-item 
+                :class="item.formClassName" 
+                v-for="item in configData" 
+                :label="item.label" 
+                :key="item.code" 
+                v-show="!item.type.includes('hidden')" 
+                :prop="item.code"
+                :label-width="item['label-width']"
+            >
+                <!-- 插槽 -->
+                <slot v-if="item.slot" :name="item.slot" :data="item"></slot>
+                <EForm v-else :item="item" :formState="formState" :methods="methods"></EForm>
+            </el-form-item>
         </template>
         <template v-else>
             <el-row :align="'middle'" :justify="base.justify" :gutter="((base.gutter) as any)">
-                <template v-for="item in configData">
-                    <el-col v-bind="item.grid || base.grid" v-if="item.show" :key="item.code">
-                        <el-form-item 
-                            :class="item.formClassName" 
-                            :label="item.label" 
-                            v-show="!item.type.includes('hidden')" 
-                            :prop="item.code"
-                            :label-width="item['label-width']"
+                <el-col v-bind="item.grid || base.grid" v-for="item in configData" :key="item.code">
+                    <el-form-item 
+                        :class="item.formClassName" 
+                        :label="item.label" 
+                        v-show="!item.type.includes('hidden')" 
+                        :prop="item.code"
+                        :label-width="item['label-width']"
+                    >
+                        <!-- 插槽 -->
+                        <slot v-if="item.slot" :name="item.slot" :data="item"></slot>
+                        <!-- 上传 -->
+                        <el-upload 
+                            v-else-if="item.type == 'upload'"
+                            v-model:file-list="fileList"
+                            action="#"
+                            :list-type="'picture-card'"
+                            :disabled="item.disabled"
+                            :accept="item.accept"
+                            v-bind="item.extra"
+                            :before-upload="(file: any) => methods.beforeUpload(file, item)"
+                            :on-preview="methods.handlePictureCardPreview"
+                            :class="{ hide: fileList.length >= (item.limit || 3) }"
                         >
-                            <!-- 插槽 -->
-                            <slot v-if="item.slot" :name="item.slot" :data="item"></slot>
-                            <!-- 上传 -->
-                            <el-upload 
-                                v-else-if="item.type == 'upload'"
-                                v-model:file-list="fileList"
-                                action="#"
-                                :list-type="'picture-card'"
-                                :disabled="item.disabled"
-                                :accept="item.accept"
-                                v-bind="item.extra"
-                                :before-upload="(file: any) => methods.beforeUpload(file, item)"
-                                :on-preview="methods.handlePictureCardPreview"
-                                :class="{ hide: fileList.length >= (item.limit || 3) }"
-                            >
-                                <el-icon ><Plus /></el-icon> 上传
-                            </el-upload>
-                            <EForm v-else :item="item" :formState="formState" :methods="methods"></EForm>
-                        </el-form-item>
-                    </el-col>
-                </template>
+                            <el-icon ><Plus /></el-icon> 上传
+                        </el-upload>
+                        <EForm v-else :item="item" :formState="formState" :methods="methods"></EForm>
+                    </el-form-item>
+                </el-col>
             </el-row>
         </template>
     </el-form>

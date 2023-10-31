@@ -10,9 +10,9 @@ import { App, Plugin } from 'vue';
 {{ importPlugins }}
 
 const MYUiPlugin: Plugin = {
-  install(app: App) {
-    {{ installPlugins }}
-  },
+    install(app: App) {
+        {{ installPlugins }}
+    },
 };
 
 export default MYUiPlugin;

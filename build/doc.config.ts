@@ -3,7 +3,7 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
     ...baseConfig,
-    base: '/JW',
+    base: '/jw',
     build: {
         outDir: 'docs'
     }
