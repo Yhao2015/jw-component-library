@@ -8,7 +8,7 @@ export default defineConfig({
         minify: false,
         lib: {
             entry: resolve(__dirname, '../packages/index.ts'),
-            name: 'JW',
+            name: 'jw-component-library',
             fileName: (format) => `jw.${format}.js`
         },
         rollupOptions: {
