@@ -29,7 +29,7 @@ let formConfig = reactive({
             code: 'pileDceName',
             label: '充电桩编号',
             type: 'input',
-            show: true
+            show: false
         },
         {
             label: '查询时间',
