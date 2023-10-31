@@ -1,5 +1,5 @@
 <template>
-    <div class="my-ui-doc">
+    <div class="jw-doc">
         <aside>
             <router-link v-for="(link, index) in data.links" :key="index" :to="link.path">{{ link.name }}</router-link>
         </aside>
@@ -28,7 +28,7 @@ body {
     padding: 0;
 }
 
-.my-ui-doc {
+.jw-doc {
     display: flex;
     min-height: 100vh;
 

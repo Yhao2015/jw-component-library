@@ -43,7 +43,7 @@ export default {
     },
     computed: {
         previewSourceCode() {
-            return this.sourceCode.replace(/'\.\.\/\.\.\/index'/g, `'@tencent/my-ui'`)
+            return this.sourceCode.replace(/'\.\.\/\.\.\/index'/g, `'@tencent/jw'`)
         }
     },
     async mounted() {
@@ -51,7 +51,7 @@ export default {
             if (isDev) {
                 this.sourceCode = (await import(/* @vite-ignore */ `../../packages/${this.compName}/docs/${this.demoName}.vue?raw`)).default
             } else {
-                this.sourceCode = await fetch(`${isDev ? '' : '/MY-UI'}/packages/${this.compName}/docs/${this.demoName}.vue`).then((res) => res.text())
+                this.sourceCode = await fetch(`${isDev ? '' : '/jw-component-library'}/packages/${this.compName}/docs/${this.demoName}.vue`).then((res) => res.text())
             }
         }
         await this.$nextTick()
