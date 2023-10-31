@@ -6,9 +6,14 @@
  * 根据 /packages 目录下的组件所生成的组件类侧边导航栏配置，请勿手动修改
  */
 
- import { createRouter, createWebHistory, RouterOptions } from 'vue-router'
+import { createRouter, createWebHistory, RouterOptions } from 'vue-router'
 
- const routes = [{
+const routes = [{
+        path: '/',
+        redirect: {
+            name: "Table"
+        }
+    },{
                 title: '表格',
                 name: 'Table',
                 path: '/components/Table',
@@ -28,18 +33,23 @@
                 name: 'Form',
                 path: '/components/Form',
                 component: () => import('packages/Form/docs/README.md'),
+            },{
+                title: '图表',
+                name: 'Chart',
+                path: '/components/Chart',
+                component: () => import('packages/Chart/docs/README.md'),
             }];
- 
- const routerConfig = {
-   history: createWebHistory(),
-   routes,
-   scrollBehavior(to: any, from: any) {
-     if (to.path !== from.path) {
-       return { top: 0 };
-     }
-   },
- };
- 
- const router = createRouter(routerConfig as RouterOptions);
- 
- export default router;
+
+const routerConfig = {
+    history: createWebHistory(),
+        routes,
+        scrollBehavior(to: any, from: any) {
+            if (to.path !== from.path) {
+            return { top: 0 };
+        }
+    },
+};
+
+const router = createRouter(routerConfig as RouterOptions);
+
+export default router;

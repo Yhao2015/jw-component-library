@@ -67,6 +67,13 @@ const routerTplReplacer = (listFileContent) => {
             }`
         })
     }
+
+    routerMeta.routes.unshift(`{
+        path: '/',
+        redirect: {
+            name: '${listFileContent[0].compName || 'table'}'
+        }
+    }`)
     const routerFileContent = handlebars.compile(routerFileTpl, { noEscape: true })(routerMeta)
     fs.outputFile(resolve(__dirname, routerFileTo), routerFileContent, err => {
         if (err) console.log(err)
