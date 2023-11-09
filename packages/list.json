@@ -1,32 +1,26 @@
 [
-  {
-    "compName": "Table",
-    "compZhName": "表格",
-    "compDesc": "用于展示多条结构类似的数据， 可对数据进行排序、筛选、对比或其他自定义操作",
-    "compClassName": "table"
-  },
-  {
-    "compName": "Dialog",
-    "compZhName": "弹框",
-    "compDesc": "在保留当前页面状态的情况下，告知用户并承载相关操作",
-    "compClassName": "dialog"
-  },
-  {
-    "compName": "Pagination",
-    "compZhName": "分页",
-    "compDesc": "当数据量过多时，使用分页分解数据",
-    "compClassName": "pagination"
-  },
-  {
-    "compName": "Form",
-    "compZhName": "表单",
-    "compDesc": "表单包含 输入框, 单选框, 下拉选择, 多选框 等用户输入的组件",
-    "compClassName": "form"
-  },
-  {
-    "compName": "Chart",
-    "compZhName": "图表",
-    "compDesc": "EChart",
-    "compClassName": "chart"
-  }
+    {
+        "compName": "Table",
+        "compZhName": "表格",
+        "compDesc": "用于展示多条结构类似的数据， 可对数据进行排序、筛选、对比或其他自定义操作",
+        "compClassName": "table"
+    },
+    {
+        "compName": "Dialog",
+        "compZhName": "弹框",
+        "compDesc": "在保留当前页面状态的情况下，告知用户并承载相关操作",
+        "compClassName": "dialog"
+    },
+    {
+        "compName": "Pagination",
+        "compZhName": "分页",
+        "compDesc": "当数据量过多时，使用分页分解数据",
+        "compClassName": "pagination"
+    },
+    {
+        "compName": "Form",
+        "compZhName": "表单",
+        "compDesc": "表单包含 输入框, 单选框, 下拉选择, 多选框 等用户输入的组件",
+        "compClassName": "form"
+    }
 ]

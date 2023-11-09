@@ -11,7 +11,7 @@ import { createRouter, createWebHistory, RouterOptions } from 'vue-router'
 const routes = [{
         path: '/',
         redirect: {
-            name: "Table"
+            name: 'Table'
         }
     },{
                 title: '表格',
@@ -38,6 +38,11 @@ const routes = [{
                 name: 'Chart',
                 path: '/components/Chart',
                 component: () => import('packages/Chart/docs/README.md'),
+            },{
+                title: '函数集合',
+                name: 'Funs',
+                path: '/components/Funs',
+                component: () => import('packages/Funs/docs/README.md'),
             }];
 
 const routerConfig = {

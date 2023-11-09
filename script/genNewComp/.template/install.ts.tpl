@@ -12,7 +12,7 @@ import { App, Plugin } from 'vue';
 const MYUiPlugin: Plugin = {
     install(app: App) {
         {{ installPlugins }}
-    },
+    }
 };
 
 export default MYUiPlugin;
