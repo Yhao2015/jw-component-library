@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { PropType, ref, watch } from 'vue'
-import { merge } from 'lodash'
+import { merge } from 'lodash-es'
 import { dialogProp } from './definitions'
 
 const props = defineProps({

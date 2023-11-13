@@ -2,7 +2,7 @@
     <el-table 
         v-loading="baseConfig.loading" 
         ref="tableRef" 
-        v-bind="baseConfig.extra" 
+        v-bind="$attrs" 
         :data="tableData"
         :height="baseConfig.height" 
         :max-height="baseConfig['max-height']" 
@@ -19,7 +19,7 @@
         :summary-method="baseConfig['summary-method']"
         :span-method="baseConfig['span-method']" 
         :table-layout="baseConfig['table-layout']"
-        :show-overflow-tooltip="baseConfig['show-overflow-tooltip']" 
+        :show-overflow-tooltip="baseConfig['show-overflow-tooltip']"
         :style="{ width: '100%' }"
         @selection-change="handleSelectionChange" 
         @current-change="handleCurrentChange" 
@@ -47,14 +47,14 @@
     <my-pagination 
         :paginationConfig="paginationConfig" 
         :functions="baseConfig.functions" 
-        v-if="baseConfig.pagination" 
+        v-if="baseConfig.pagination && tableData.length" 
         :class="['marginT24', baseConfig.paginationClassName]" 
     />
 </template>
 
 <script lang="ts" setup>
 import { PropType, ref, reactive, watch } from 'vue'
-import { merge } from 'lodash'
+import { merge } from 'lodash-es'
 import { table_column, columnProp } from './definitions'
 import { paginationProp } from 'packages/Pagination/src/definitions'
 import ColumnList from './column.vue'

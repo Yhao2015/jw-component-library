@@ -8,7 +8,7 @@
 - 路由管理：vue-router v4
 - 状态管理：pinia
 - 数据请求：axios
-- 实用工具库：lodash
+- 实用工具库：lodash-es
 
 
 ### 快速上手

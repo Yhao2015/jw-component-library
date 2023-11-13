@@ -1,6 +1,6 @@
 {
   "name": "jw-component-library",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "main": "lib/jw.umd.js",
   "scripts": {
     "dev": "vite --config ./build/base.config.ts",
@@ -12,10 +12,8 @@
   "dependencies": {
     "element-plus": "^2.4.1",
     "handlebars": "^4.7.8",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "prismjs": "^1.29.0",
-    "unplugin-auto-import": "^0.16.7",
-    "unplugin-vue-components": "^0.25.2",
     "vue": "^3.3.4",
     "vue-router": "^4.0.12"
   },

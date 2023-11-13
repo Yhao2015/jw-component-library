@@ -1,4 +1,4 @@
-declare module 'lodash';
+declare module 'lodash-es';
 // 国际化声明
 declare module 'element-plus/dist/locale/*.mjs'
 

@@ -2,7 +2,7 @@
     <el-dialog
         ref="dialogRef"
         v-model="visible" 
-        v-bind="baseDialog.extra"
+        v-bind="$attrs"
         :title="baseDialog.title"
         :width="baseDialog.width"
         :fullscreen="baseDialog.fullscreen" 
@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { PropType, ref, watch } from 'vue'
-import { merge } from 'lodash'
+import { merge } from 'lodash-es'
 import { dialogProp } from './definitions'
 
 const props = defineProps({

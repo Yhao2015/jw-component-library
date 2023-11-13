@@ -54,7 +54,7 @@
 
 <script lang="ts" setup>
 import { PropType, ref, reactive, watch } from 'vue'
-import { merge } from 'lodash'
+import { merge } from 'lodash-es'
 import { table_column, columnProp } from './definitions'
 import { paginationProp } from 'packages/Pagination/src/definitions'
 import ColumnList from './column.vue'

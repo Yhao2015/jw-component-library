@@ -72,7 +72,7 @@
 <script setup lang="ts">
 import { PropType, ref, reactive, watch } from 'vue'
 import EForm from './formItem.vue'
-import { cloneDeep, merge } from 'lodash'
+import { cloneDeep, merge } from 'lodash-es'
 import { dataProp, baseProp, formConfigProp } from './definitions'
 import type { FormInstance, UploadUserFile, UploadFile } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'

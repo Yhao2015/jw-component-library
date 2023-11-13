@@ -1,5 +1,6 @@
 <template>
-	<el-pagination 
+	<el-pagination
+		v-bind="$attrs" 
 		v-model:current-page="baseConfig.currentPage" 
 		v-model:page-size="baseConfig.pageSize"
 		:background="baseConfig.background" 
