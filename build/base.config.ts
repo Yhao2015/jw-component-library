@@ -24,35 +24,5 @@ export default defineConfig({
             include: [/\.vue$/, /\.md$/]
         }),
         Markdown()
-        // AutoImport({
-        //     include: [
-        //         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
-        //         /\.vue$/,
-        //         /\.vue\?vue/, // .vue
-        //         /\.md$/ // .md
-        //     ],
-        //     imports: ['vue', 'vue-router'],
-        //     dts: './auto-imports.d.ts',
-        //     resolvers: [
-        //         ElementPlusResolver({
-        //             importStyle: false
-        //         })
-        //     ],
-        //     eslintrc: {
-        //         enabled: false, // Default `false`
-        //         filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
-        //         globalsPropValue: true // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
-        //     }
-        // }),
-        // Components({
-        //     resolvers: [
-        //         // Auto register Element Plus components
-        //         // 自动导入 Element Plus 组件
-        //         ElementPlusResolver({
-        //             importStyle: false
-        //         })
-        //     ],
-        //     dts: './components.d.ts'
-        // })
     ]
 })

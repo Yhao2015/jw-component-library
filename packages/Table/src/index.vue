@@ -22,7 +22,8 @@
         :show-overflow-tooltip="baseConfig['show-overflow-tooltip']"
         :style="{ width: '100%' }"
         @selection-change="handleSelectionChange" 
-        @current-change="handleCurrentChange" 
+        @current-change="handleCurrentChange"
+        @row-click="handleRowClick" 
     >
         <el-table-column type="index" :index="indexMethod" width="50" align="center" v-if="baseConfig.index" />
         <template v-if="type">
@@ -157,12 +158,12 @@ const handleCurrentChange = (val: any) => {
     // tableRef.value!.setCurrentRow(row)
 }
 
-/* let handleRowClick = (row: any) => {
-    console.log('rowClick', row)
+let handleRowClick = (row: any) => {
+    // console.log('rowClick', row)
     if (baseConfig.functions['rowClick']) {
         baseConfig.functions['rowClick'](row)
     }
-} */
+}
 
 let tableRowClassName = (row: any) => {
     if (baseConfig.functions['tableRowClassName']) {

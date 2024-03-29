@@ -9,40 +9,42 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 let formRef = ref()
-let formConfig = reactive({
+let onChange = () => {
+    let temp = (formConfig.value.formConfigData.find(el => el.code == 'pileDceName') as any)
+    temp.type = temp.type == 'hidden' ? 'input' : 'hidden'
+}
+
+let formConfig = ref({
     formConfigData: [
         {
             code: 'stationName',
             label: '站点名称',
             type: 'select',
-            show: true,
             dataFormat: [],
             fieldName: {
                 value: 'stationCode',
                 label: 'stationName'
-            }
+            },
+            changeFunName: 'onChange'
         },
         {
             code: 'pileDceName',
             label: '充电桩编号',
-            type: 'input',
-            show: true
+            type: 'input'
         },
         {
             label: '查询时间',
             code: 'dateRange',
             type: 'daterange',
-            show: true,
             formClassName: 'jw_daterange'
         },
         {
             code: '',
             slot: 'btn',
             type: '',
-            show: true,
             formClassName: 'pull-right'
         }
     ],
@@ -50,12 +52,14 @@ let formConfig = reactive({
         inline: true,
         'label-width': 90
     },
-    functions: {}
+    functions: {
+        onChange: onChange
+    }
 })
 
 let getEnum = () => {
     setTimeout(() => {
-        (formConfig.formConfigData.find(el => el.code == 'stationName') as any).dataFormat = [
+        (formConfig.value.formConfigData.find(el => el.code == 'stationName') as any).dataFormat = [
             {
                 "stationCode": "02300001",
                 "stationName": "杭州炬华科技股份有限公司123",

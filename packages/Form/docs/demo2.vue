@@ -7,6 +7,8 @@
                 </div>
             </template>
         </my-form>
+
+        <el-button type="primary" @click="onSave">提交</el-button>
     </div>
 </template>
 
@@ -247,8 +249,8 @@ let modalConfig = reactive({
         {
             code: 'name',
             label: '用户名称',
-            type: 'input',
-            show: true,
+            type: 'hidden',
+            show: false,
             required: true,
             checkFunName: 'checkNameLength'
         },
@@ -259,7 +261,8 @@ let modalConfig = reactive({
             show: true,
             required: true,
             pattern: /^1[3|4|5|7|8|9][0-9]\d{8}$/,
-            help: '请输入正确的手机号'
+            help: '请输入正确的手机号',
+            labelTip: '登录账号'
         },
         {
             code: '',
@@ -396,6 +399,16 @@ let getEnum = () => {
 }
 
 getEnum()
+
+
+let onSave = () => {
+    modalRef.value.checkForm().then(flag => {
+        console.log(flag)
+    })
+
+    let formState = modalRef.value.formState
+    console.log(formState)
+}
 </script>
 
 <style lang="less">

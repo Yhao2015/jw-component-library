@@ -24,9 +24,9 @@
     "compClassName": "form"
   },
   {
-    "compName": "Chart",
-    "compZhName": "图表",
-    "compDesc": "EChart",
-    "compClassName": "chart"
+    "compName": "AddForms",
+    "compZhName": "新增表单组",
+    "compDesc": "新增删除一组表单",
+    "compClassName": "add-forms"
   }
 ]

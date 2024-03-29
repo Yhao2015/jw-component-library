@@ -17,12 +17,14 @@ let dialogConfig = reactive({
     visible: false,
     title: '',
     width: 480,
+    loading: false,
     functions: {
         handleClose: () => {
             dialogConfig.visible = false
             console.log('handleClose')
         },
         handleSave: () => {
+            // dialogConfig.loading = true
             dialogConfig.visible = false
             console.log('handleSave')
         }

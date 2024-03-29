@@ -2,7 +2,7 @@
     <el-table 
         v-loading="baseConfig.loading" 
         ref="tableRef" 
-        v-bind="baseConfig.extra" 
+        v-bind="$attrs" 
         :data="tableData"
         :height="baseConfig.height" 
         :max-height="baseConfig['max-height']" 
@@ -19,10 +19,11 @@
         :summary-method="baseConfig['summary-method']"
         :span-method="baseConfig['span-method']" 
         :table-layout="baseConfig['table-layout']"
-        :show-overflow-tooltip="baseConfig['show-overflow-tooltip']" 
+        :show-overflow-tooltip="baseConfig['show-overflow-tooltip']"
         :style="{ width: '100%' }"
         @selection-change="handleSelectionChange" 
-        @current-change="handleCurrentChange" 
+        @current-change="handleCurrentChange"
+        @row-click="handleRowClick" 
     >
         <el-table-column type="index" :index="indexMethod" width="50" align="center" v-if="baseConfig.index" />
         <template v-if="type">
@@ -47,7 +48,7 @@
     <my-pagination 
         :paginationConfig="paginationConfig" 
         :functions="baseConfig.functions" 
-        v-if="baseConfig.pagination" 
+        v-if="baseConfig.pagination && tableData.length" 
         :class="['marginT24', baseConfig.paginationClassName]" 
     />
 </template>
@@ -157,12 +158,12 @@ const handleCurrentChange = (val: any) => {
     // tableRef.value!.setCurrentRow(row)
 }
 
-/* let handleRowClick = (row: any) => {
-    console.log('rowClick', row)
+let handleRowClick = (row: any) => {
+    // console.log('rowClick', row)
     if (baseConfig.functions['rowClick']) {
         baseConfig.functions['rowClick'](row)
     }
-} */
+}
 
 let tableRowClassName = (row: any) => {
     if (baseConfig.functions['tableRowClassName']) {

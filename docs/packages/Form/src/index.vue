@@ -1,6 +1,6 @@
 <template>
     <el-form
-        @submit.prevent 
+        @submit.prevent
         :model="formState" 
         :rules="rulesRef"
         :inline="base.inline" 
@@ -12,19 +12,30 @@
         :inline-message="base['inline-message']" 
         :status-icon="base['status-icon']" 
         ref="modelRef"
-        v-if="isRefresh"
         :style="{ '--itemBottom': base['item-bottom'] }"
+        :validate-on-rule-change="false"
+        v-bind="$attrs" 
     >
         <template v-if="base.inline">
             <el-form-item 
                 :class="item.formClassName" 
-                v-for="item in configData" 
-                :label="item.label" 
+                v-for="item in configData"
                 :key="item.code" 
                 v-show="!item.type.includes('hidden')" 
                 :prop="item.code"
                 :label-width="item['label-width']"
             >
+                <template #label >
+                    {{ item.label }}
+                    <el-tooltip placement="top-start" v-if="item.labelTip">
+                        <template #content>
+                            <span>{{ item.labelTip }}</span>
+                        </template>
+                        <el-icon color="#049DFF" :style="{ 'margin-left': '2px' }">
+                            <Warning />
+                        </el-icon>
+                    </el-tooltip>
+                </template>
                 <!-- 插槽 -->
                 <slot v-if="item.slot" :name="item.slot" :data="item"></slot>
                 <EForm v-else :item="item" :formState="formState" :methods="methods"></EForm>
@@ -32,34 +43,47 @@
         </template>
         <template v-else>
             <el-row :align="'middle'" :justify="base.justify" :gutter="((base.gutter) as any)">
-                <el-col v-bind="item.grid || base.grid" v-for="item in configData" :key="item.code">
-                    <el-form-item 
-                        :class="item.formClassName" 
-                        :label="item.label" 
-                        v-show="!item.type.includes('hidden')" 
-                        :prop="item.code"
-                        :label-width="item['label-width']"
-                    >
-                        <!-- 插槽 -->
-                        <slot v-if="item.slot" :name="item.slot" :data="item"></slot>
-                        <!-- 上传 -->
-                        <el-upload 
-                            v-else-if="item.type == 'upload'"
-                            v-model:file-list="fileList"
-                            action="#"
-                            :list-type="'picture-card'"
-                            :disabled="item.disabled"
-                            :accept="item.accept"
-                            v-bind="item.extra"
-                            :before-upload="(file: any) => methods.beforeUpload(file, item)"
-                            :on-preview="methods.handlePictureCardPreview"
-                            :class="{ hide: fileList.length >= (item.limit || 3) }"
+                <template v-for="item in configData">
+                    <el-col v-bind="item.grid || base.grid" v-if="item.show">
+                        <el-form-item 
+                            :class="item.formClassName" 
+                            :label="item.label" 
+                            v-show="!item.type.includes('hidden')" 
+                            :prop="item.code"
+                            :label-width="item['label-width']"
                         >
-                            <el-icon ><Plus /></el-icon> 上传
-                        </el-upload>
-                        <EForm v-else :item="item" :formState="formState" :methods="methods"></EForm>
-                    </el-form-item>
-                </el-col>
+                            <template #label >
+                                {{ item.label }}
+                                <el-tooltip placement="top-start" v-if="item.labelTip">
+                                    <template #content>
+                                        <span>{{ item.labelTip }}</span>
+                                    </template>
+                                    <el-icon color="#049DFF" :style="{ 'margin-left': '2px' }">
+                                        <Warning />
+                                    </el-icon>
+                                </el-tooltip>
+                            </template>
+                            <!-- 插槽 -->
+                            <slot v-if="item.slot" :name="item.slot" :data="item"></slot>
+                            <!-- 上传 -->
+                            <el-upload 
+                                v-else-if="item.type == 'upload'"
+                                v-model:file-list="fileList"
+                                action="#"
+                                :list-type="'picture-card'"
+                                :disabled="item.disabled"
+                                :accept="item.accept"
+                                v-bind="item.extra"
+                                :before-upload="(file: any) => methods.beforeUpload(file, item)"
+                                :on-preview="methods.handlePictureCardPreview"
+                                :class="{ hide: fileList.length >= (item.limit || 3) }"
+                            >
+                                <el-icon ><Plus /></el-icon> 上传
+                            </el-upload>
+                            <EForm v-else :item="item" :formState="formState" :methods="methods"></EForm>
+                        </el-form-item>
+                    </el-col>
+                </template>
             </el-row>
         </template>
     </el-form>
@@ -75,7 +99,7 @@ import EForm from './formItem.vue'
 import { cloneDeep, merge } from 'lodash-es'
 import { dataProp, baseProp, formConfigProp } from './definitions'
 import type { FormInstance, UploadUserFile, UploadFile } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
+import { Plus, Warning } from '@element-plus/icons-vue'
 const props = defineProps({
     formConfig: {
         type: Object as PropType<formConfigProp>,
@@ -100,7 +124,7 @@ let base = reactive<baseProp>({
 const modelRef = ref<FormInstance>()
 const formState = reactive<any>({})
 const rulesRef = reactive<any>({})
-let configData = reactive<dataProp[]>([])
+let configData = ref<dataProp[]>([])
 let fileList = ref<UploadUserFile[]>([])
 
 const dialogVisible = ref(false)
@@ -112,14 +136,10 @@ watch(
     (value: formConfigProp) => {
         let { formConfigData, formConfigBase } = value
         base = merge(base, formConfigBase)
-        configData = (cloneDeep(formConfigData) as dataProp[])
-        isRefresh.value = false
-        setTimeout(() => {
-            isRefresh.value = true
-        }, 100)
+        configData.value = (cloneDeep(formConfigData) as dataProp[])
 
-        if(configData ?.length) {
-            configData.map((el: dataProp) => {
+        if(configData.value ?.length) {
+            configData.value.map((el: dataProp) => {
                 if(!el.code) return
                 // 赋值
                 formState[el.code] = el.defaultValue
@@ -222,7 +242,7 @@ const methods = {
         }
     },
     setFieldValue(key: string, data: any) {
-        formState[key] = data[key]
+        formState[key] = data
     },
     beforeUpload(file: UploadFile, item: dataProp) {
         let functions = props.formConfig.functions
@@ -259,6 +279,11 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
+:deep(.el-form-item__label) {
+    display: flex;
+    align-items: center;
+}
+
 .el-form-item {
     margin-bottom: var(--itemBottom);
 }

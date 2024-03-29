@@ -11,7 +11,7 @@ import { TablePlugin } from './Table';
 import { DialogPlugin } from './Dialog';
 import { PaginationPlugin } from './Pagination';
 import { FormPlugin } from './Form';
-import { ChartPlugin } from './Chart';
+import { AddFormsPlugin } from './AddForms';
 
 const MYUiPlugin: Plugin = {
     install(app: App) {
@@ -19,8 +19,8 @@ const MYUiPlugin: Plugin = {
     DialogPlugin.install?.(app);
     PaginationPlugin.install?.(app);
     FormPlugin.install?.(app);
-    ChartPlugin.install?.(app);
-    },
+    AddFormsPlugin.install?.(app);
+    }
 };
 
 export default MYUiPlugin;
@@ -29,4 +29,4 @@ export * from './Table'
 export * from './Dialog'
 export * from './Pagination'
 export * from './Form'
-export * from './Chart'
+export * from './AddForms'

@@ -34,15 +34,10 @@ const routes = [{
                 path: '/components/Form',
                 component: () => import('packages/Form/docs/README.md'),
             },{
-                title: '图表',
-                name: 'Chart',
-                path: '/components/Chart',
-                component: () => import('packages/Chart/docs/README.md'),
-            },{
-                title: '函数集合',
-                name: 'Funs',
-                path: '/components/Funs',
-                component: () => import('packages/Funs/docs/README.md'),
+                title: '新增表单组',
+                name: 'AddForms',
+                path: '/components/AddForms',
+                component: () => import('packages/AddForms/docs/README.md'),
             }];
 
 const routerConfig = {

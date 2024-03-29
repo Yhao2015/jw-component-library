@@ -6,12 +6,12 @@ import demo from './demo.vue'
 
 <!-- 正文开始 -->
 
-# 图
+# 新增表单组
 
-EChart
+新增删除一组表单
 
 ## 基础用法
-<Preview comp-name="Chart" demo-name="demo">
+<Preview comp-name="AddForms" demo-name="demo">
   <demo />
 </Preview>
 

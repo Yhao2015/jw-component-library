@@ -17,5 +17,12 @@ import JW from '../packages'
 import Preview from './components/Preview.vue'
 
 let app = createApp(App)
+
+/* 字体图标 */
+import * as Icons from '@element-plus/icons-vue'
+// 注册全局组件
+Object.keys(Icons).forEach(key => {
+    app.component(key, Icons[key as keyof typeof Icons])
+})
 app.component('Preview', Preview)
 app.use(JW).use(router).use(ElementPlus, { locale: zhCn }).mount('#app')

@@ -19,7 +19,7 @@ import demo2 from './demo2.vue'
 
 ## 基础用法
 
-<Preview comp-name="Form" demo-name="demo">
+<Preview comp-name="Form" demo-name="demo2">
   <demo2 />
 </Preview>
 

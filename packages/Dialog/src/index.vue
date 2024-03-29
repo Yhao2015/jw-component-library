@@ -1,28 +1,30 @@
 <template>
     <el-dialog
         ref="dialogRef"
-        v-model="visible" 
+        v-model="visible"
         v-bind="$attrs"
         :title="baseDialog.title"
         :width="baseDialog.width"
-        :fullscreen="baseDialog.fullscreen" 
-        :modal="baseDialog.modal" 
-        :modal-class="baseDialog['modal-class']" 
-        :draggable="baseDialog.draggable" 
-        :align-center="baseDialog['align-center']" 
-        :destroy-on-close="baseDialog['destroy-on-close']" 
+        :fullscreen="baseDialog.fullscreen"
+        :modal="baseDialog.modal"
+        :modal-class="baseDialog['modal-class']"
+        :draggable="baseDialog.draggable"
+        :align-center="baseDialog['align-center']"
+        :destroy-on-close="baseDialog['destroy-on-close']"
         :z-index="baseDialog['z-index']"
         :custom-class="baseDialog['custom-class']"
-        class="jw_dialog" 
+        class="jw_dialog"
         :append-to-body="false"
         :before-close="handleClose"
     >
         <slot name="content"></slot>
         <template #footer v-if="baseDialog.footer">
             <span class="dialog-footer">
-                <el-button @click="handleClose"> 取消 </el-button>
-                <el-button v-if="baseDialog.type == 'del'" type="danger" @click="handleSave"> 删除 </el-button>
-                <el-button v-else type="primary" @click="handleSave"> 确定 </el-button>
+                <slot name="prefixFooter"></slot>
+                <el-button @click="handleClose"> {{ baseDialog['cancel-text'] || '取消' }} </el-button>
+                <el-button :loading="loading" v-if="baseDialog.type == 'del'" type="danger" @click="handleSave"> {{ baseDialog['save-text'] || '删除' }} </el-button>
+                <el-button :loading="loading" v-else type="primary" @click="handleSave"> {{ baseDialog['save-text'] || '确定' }} </el-button>
+                <slot name="suffixFooter"></slot>
             </span>
         </template>
     </el-dialog>
@@ -49,17 +51,20 @@ let baseDialog: dialogProp = {
     'z-index': 2001,
     'destroy-on-close': true,
     type: '',
-    footer: true
+    footer: true,
+    loading: false
 }
 
 const visible = ref(false)
 const dialogRef = ref()
+let loading = ref(false)
 
 watch(
     props.dialogConfig,
     (value) => {
         baseDialog = merge(baseDialog, value)
         visible.value = baseDialog.visible
+        loading.value = baseDialog.loading
     }
 )
 

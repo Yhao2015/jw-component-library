@@ -30,6 +30,7 @@ export interface dataProp {
     changeFunName?: Function
     blurFunName?: Function 
     focusFunName?: Function
+    labelTip?: string
 }
 
 export interface baseProp {

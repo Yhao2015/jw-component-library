@@ -1,11 +1,11 @@
 <template>
     <!-- 文本输入 -->
     <el-input
-        class="widthP100" 
-        v-if="item.type == 'input' || item.type == 'hidden'" 
+        class="widthP100"
+        v-if="item.type == 'input' || item.type == 'hidden'"
         v-model="formState[item.code]"
         :placeholder="item.placeholder || '请输入'"
-        :clearable="item.clearable" 
+        :clearable="item.clearable"
         :disabled="item.disabled"
         v-bind="item.extra"
         @change="(value: string | number) => methods.formChange(value, item)"
@@ -18,7 +18,7 @@
     </el-input>
 
     <el-input-number
-        class="widthP100"  
+        class="widthP100"
         v-else-if="item.type == 'number' || item.type == 'numberhidden'"
         v-model="formState[item.code]"
         :placeholder="item.placeholder || '请输入'"
@@ -30,9 +30,9 @@
     />
 
     <el-input
-        class="widthP100"  
+        class="widthP100"
         v-else-if="item.type == 'textarea'"
-        v-model="formState[item.code]" 
+        v-model="formState[item.code]"
         type="textarea"
         :placeholder="item.placeholder || '请输入'"
         :disabled="item.disabled"
@@ -46,11 +46,11 @@
     <el-input
         class="widthP100"
         v-else-if="item.type == 'password'"
-        v-model="formState[item.code]" 
+        v-model="formState[item.code]"
         type="password"
         :placeholder="item.placeholder || '请输入'"
         :disabled="item.disabled"
-        :clearable="item.clearable" 
+        :clearable="item.clearable"
         v-bind="item.extra"
         @change="(value: string | number) => methods.formChange(value, item)"
         @input="(value: string | number) => methods.formChange(value, item)"
@@ -59,32 +59,32 @@
     />
 
     <!-- 选择类 -->
-    <el-radio-group 
-        v-else-if="item.type == 'radio'" 
+    <el-radio-group
+        v-else-if="item.type == 'radio'"
         v-model="formState[item.code]"
         :disabled="item.disabled"
         v-bind="item.extra"
         @change="(value: string | number | boolean) => methods.formChange(value, item)"
     >
-        <el-radio 
-            v-for="dataFormat in item.dataFormat" 
-            :disabled="dataFormat.disabled" 
+        <el-radio
+            v-for="dataFormat in item.dataFormat"
+            :disabled="dataFormat.disabled"
             :label="dataFormat[item.fieldName ? (item.fieldName.value || 'value') : 'value']"
         >
             {{ dataFormat[item.fieldName ? (item.fieldName.label || 'label') : 'label'] }}
         </el-radio>
     </el-radio-group>
 
-    <el-checkbox-group 
-        v-else-if="item.type == 'checkbox'" 
+    <el-checkbox-group
+        v-else-if="item.type == 'checkbox'"
         v-model="formState[item.code]"
         :disabled="item.disabled"
         v-bind="item.extra"
         @change="(value: /* string[] | number[] | */ any[]) => methods.formChange(value, item)"
     >
-        <el-checkbox 
+        <el-checkbox
             v-for="dataFormat in item.dataFormat"
-            :disabled="dataFormat.disabled" 
+            :disabled="dataFormat.disabled"
             :label="dataFormat[item.fieldName ? (item.fieldName.value || 'value') : 'value']"
         >
             {{ dataFormat[item.fieldName ? (item.fieldName.label || 'label') : 'label'] }}
@@ -93,16 +93,16 @@
 
     <el-select
         class="widthP100"
-        v-else-if="item.type == 'select'"  
+        v-else-if="item.type == 'select'"
         v-model="formState[item.code]"
         :multiple="item.multiple"
         collapse-tags
         collapse-tags-tooltip
         :placeholder="item.placeholder || '请选择'"
         :disabled="item.disabled"
-        :clearable="item.clearable" 
+        :clearable="item.clearable"
         v-bind="item.extra"
-        @change="(val: any) => methods.formChange(val, item)" 
+        @change="(val: any) => methods.formChange(val, item)"
     >
         <el-option
             v-for="dataFormat in item.dataFormat"
@@ -129,25 +129,25 @@
     />
 
     <el-cascader
-        class="widthP100" 
+        class="widthP100"
         v-else-if="item.type == 'cascader'"
         v-model="formState[item.code]"
         :options="item.dataFormat"
         :props="{ multiple: item.multiple }"
         :placeholder="item.placeholder || '请选择'"
         :disabled="item.disabled"
-        :clearable="item.clearable" 
+        :clearable="item.clearable"
         filterable
         :filter-method="methods.filterMethod"
         v-bind="item.extra"
-        @change="(val: any) => methods.formChange(val, item)" 
+        @change="(val: any) => methods.formChange(val, item)"
     />
 
-    <el-switch 
-        v-else-if="item.type == 'switch'" 
-        v-model="formState[item.code]" 
+    <el-switch
+        v-else-if="item.type == 'switch'"
+        v-model="formState[item.code]"
         v-bind="item.extra"
-        @change="(val: any) => methods.formChange(val, item)" 
+        @change="(val: any) => methods.formChange(val, item)"
     />
 
     <!-- 时间 -->
@@ -158,8 +158,9 @@
         :type="item.type"
         :placeholder="item.placeholder || '请选择'"
         :disabled="item.disabled"
-        :clearable="item.clearable" 
-        @change="(val: any) => methods.formChange(val, item)" 
+        :clearable="item.clearable"
+        v-bind="item.extra"
+        @change="(val: any) => methods.formChange(val, item)"
         @blur="(event: FocusEvent) => methods.formBlur(event, item)"
         @focus="(event: FocusEvent) => methods.formFocus(event, item)"
     />
@@ -175,7 +176,8 @@
         :placeholder="item.placeholder || '请选择'"
         :disabled="item.disabled"
         :clearable="item.clearable"
-        @change="(val: any) => methods.formChange(val, item)" 
+        v-bind="item.extra"
+        @change="(val: any) => methods.formChange(val, item)"
         @blur="(event: FocusEvent) => methods.formBlur(event, item)"
         @focus="(event: FocusEvent) => methods.formFocus(event, item)"
     />
@@ -186,8 +188,11 @@
         v-model="formState[item.code]"
         :placeholder="item.placeholder || '请选择'"
         :disabled="item.disabled"
-        :clearable="item.clearable" 
+        :clearable="item.clearable"
+        v-bind="item.extra"
         @change="(val: any) => methods.formChange(val, item)"
+        @blur="(event: FocusEvent) => methods.formBlur(event, item)"
+        @focus="(event: FocusEvent) => methods.formFocus(event, item)"
     />
 
     <el-time-picker
@@ -200,8 +205,11 @@
         :end-placeholder="item.extra && item.extra['end-placeholder'] || '结束时间'"
         :placeholder="item.placeholder || '请选择'"
         :disabled="item.disabled"
-        :clearable="item.clearable" 
+        :clearable="item.clearable"
+        v-bind="item.extra"
         @change="(val: any) => methods.formChange(val, item)"
+        @blur="(event: FocusEvent) => methods.formBlur(event, item)"
+        @focus="(event: FocusEvent) => methods.formFocus(event, item)"
     />
 
     <el-time-select
@@ -213,36 +221,31 @@
         :end="item.extra && item.extra.end || '23:59'"
         :placeholder="item.placeholder || '请选择'"
         :disabled="item.disabled"
-        :clearable="item.clearable" 
+        :clearable="item.clearable"
+        v-bind="item.extra"
         @change="(val: string) => methods.formChange(val, item)"
+        @blur="(event: FocusEvent) => methods.formBlur(event, item)"
+        @focus="(event: FocusEvent) => methods.formFocus(event, item)"
     />
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
+<script lang="ts" setup>
+import { PropType, defineProps } from 'vue'
 import { dataProp } from './definitions'
-export default defineComponent({
-    props: {
-        item: {
-            type: Object as PropType<dataProp>,
-            default: () => {}
-        },
-        formState: {
-            type: Object,
-            default: () => {}
-        },
-        methods: {
-            type: Object,
-            default: () => {}
-        }
+defineProps({
+    item: {
+        type: Object as PropType<dataProp>,
+        default: () => {}
     },
-    setup(props) {
-        let { item, formState, methods } = props 
-        return {
-            item, formState, methods
-        }
+    formState: {
+        type: Object,
+        default: () => {}
+    },
+    methods: {
+        type: Object,
+        default: () => {}
     }
-}) 
+})
 </script>
 
 <style lang="less">
