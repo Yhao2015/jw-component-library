@@ -1,27 +1,27 @@
 <template>
     <el-form
         @submit.prevent
-        :model="formState" 
+        :model="formState"
         :rules="rulesRef"
-        :inline="base.inline" 
-        :label-position="base['label-position']" 
-        :label-width="base['label-width']" 
-        :label-suffix="base['label-suffix']" 
-        :hide-required-asterisk="base['hide-required-asterisk']" 
-        :require-asterisk-position="base['require-asterisk-position']" 
-        :inline-message="base['inline-message']" 
-        :status-icon="base['status-icon']" 
+        :inline="base.inline"
+        :label-position="base['label-position']"
+        :label-width="base['label-width']"
+        :label-suffix="base['label-suffix']"
+        :hide-required-asterisk="base['hide-required-asterisk']"
+        :require-asterisk-position="base['require-asterisk-position']"
+        :inline-message="base['inline-message']"
+        :status-icon="base['status-icon']"
         ref="modelRef"
         :style="{ '--itemBottom': base['item-bottom'] }"
         :validate-on-rule-change="false"
-        v-bind="$attrs" 
+        v-bind="$attrs"
     >
         <template v-if="base.inline">
-            <el-form-item 
-                :class="item.formClassName" 
+            <el-form-item
+                :class="item.formClassName"
                 v-for="item in configData"
-                :key="item.code" 
-                v-show="!item.type.includes('hidden')" 
+                :key="item.code"
+                v-show="!item.type.includes('hidden')"
                 :prop="item.code"
                 :label-width="item['label-width']"
             >
@@ -45,10 +45,10 @@
             <el-row :align="'middle'" :justify="base.justify" :gutter="((base.gutter) as any)">
                 <template v-for="item in configData">
                     <el-col v-bind="item.grid || base.grid" v-if="item.show">
-                        <el-form-item 
-                            :class="item.formClassName" 
-                            :label="item.label" 
-                            v-show="!item.type.includes('hidden')" 
+                        <el-form-item
+                            :class="item.formClassName"
+                            :label="item.label"
+                            v-show="!item.type.includes('hidden')"
                             :prop="item.code"
                             :label-width="item['label-width']"
                         >
@@ -66,7 +66,7 @@
                             <!-- 插槽 -->
                             <slot v-if="item.slot" :name="item.slot" :data="item"></slot>
                             <!-- 上传 -->
-                            <el-upload 
+                            <el-upload
                                 v-else-if="item.type == 'upload'"
                                 v-model:file-list="fileList"
                                 action="#"
@@ -141,13 +141,17 @@ watch(
         if(configData.value ?.length) {
             configData.value.map((el: dataProp) => {
                 if(!el.code) return
+
                 // 赋值
-                formState[el.code] = el.defaultValue
+                // formState[el.code] = el.defaultValue //直接赋值监听之后数据会清空
+                if(Object.keys(formState).length == 0) {
+                    formState[el.code] = el.defaultValue
+                }
 
                 // 必填项
                 rulesRef[el.code] = [] as Array<Object>
                 if(el.required) {
-                    rulesRef[el.code].push({ 
+                    rulesRef[el.code].push({
                         required: true,
                         message: el.help || ((el.type == 'input' || el.type == 'number' || el.type == 'password' || el.type == 'textarea' ? '请输入' : '请选择') + el.label),
                         trigger: el.trigger || 'change'
@@ -167,7 +171,7 @@ watch(
                 if (el.checkFunName) {
                     rulesRef[el.code].push({
                         // type: 'any',
-                        validator: (rule: any, value: any, callback: any) => methods.checkFunction(rule, value, callback, el.checkFunName)
+                        validator: (rule: any, value: any, callback: any) => methods.checkFunction(rule, value, callback, el.checkFunName, el)
                     })
                 }
 
@@ -186,10 +190,10 @@ watch(
 
 const methods = {
     // 校验
-    checkFunction: (rule: any, value: any, callback: any, checkFunName: any) => {
+    checkFunction: (rule: any, value: any, callback: any, checkFunName: any, item: any) => {
         let functions = props.formConfig.functions
         if(functions ?.[checkFunName]) {
-            functions[checkFunName](rule, value, callback)
+            functions[checkFunName](rule, value, callback, item)
         }
     },
     // 方法
@@ -226,7 +230,7 @@ const methods = {
         if(!modelRef.value)  return
         return new Promise((resolve) => {
             (modelRef.value as any).validate((valid: any) => {
-                resolve(valid ? true : false) 
+                resolve(valid ? true : false)
             })
         })
     },
@@ -315,7 +319,7 @@ defineExpose({
     .el-dialog__body {
         display: flex;
         justify-content: center;
-    }   
+    }
 }
 
 .widthP100 {

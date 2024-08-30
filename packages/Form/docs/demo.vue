@@ -154,7 +154,7 @@ let getEnum = () => {
     }, 100)
 }
 
-getEnum()
+// getEnum()
 
 let onSearch = () => { }
 </script>

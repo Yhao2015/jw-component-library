@@ -2,22 +2,34 @@
     <div class="my-add-forms">
         <div class="my-flex" v-for="item in lists" :key="item.id">
             <div class="my-bordered" :style="{ 'border-color': !borderColor ? 'transparent' : borderColor }">
-                <my-form :formConfig="item.formConfig" :ref="(el: any) => setRefMap(el, item)"></my-form>
+                <my-form :formConfig="item.formConfig" :ref="(el: any) => setRefMap(el, item)">
+                    <template v-for="slot in slotList" v-slot:[slot]="scope">
+                        <slot :name="slot" :data="scope.data"></slot>
+                    </template>
+                </my-form>
             </div>
 
-            <el-button :icon="Minus" type="danger" :style="{ 'margin-left': '12px' }" @click="methods.del(item)" />
+            <el-space :style="{ 'margin-left': '8px' }">
+                <el-button :disabled="item.disabled" :icon="Minus" type="danger" @click="methods.del(item)" />
+                <template v-if="type == 'right'">
+                    <el-button :icon="Plus" type="primary" :style="{ width: '100%' }" @click="methods.add" />
+                </template>
+            </el-space>
         </div>
-
         <slot name="content"></slot>
-        <div class="flex-center"><el-button round :icon="Plus" type="primary" :style="{ width: '100%' }" @click="methods.add">新增</el-button></div>
+
+        <template v-if="type == 'bottom'">
+            <div class="flex-center"><el-button round :icon="Plus" type="primary" :style="{ width: '100%' }" @click="methods.add">新增</el-button></div>
+        </template>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { Plus, Minus } from '@element-plus/icons-vue'
 import { cloneDeep } from 'lodash-es'
 import { ElMessage } from 'element-plus'
+
 let getUuid = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         const r = (Math.random() * 16) | 0
@@ -35,14 +47,15 @@ let setRefMap = (el: any, item: any) => {
 
 let lists = ref<any>([])
 let methods = {
-    add: () => {
+    add: (disabled = false) => {
         let id = getUuid()
         let formConfig = cloneDeep(prop.formConfig)
         formConfig.formConfigData.forEach((el: any) => el.pid = id)
 
         let ans = {
             formConfig,
-            id
+            id,
+            disabled
         }
 
         lists.value.push(ans)
@@ -57,7 +70,7 @@ let methods = {
         }
         lists.value = lists.value.filter((el: any) => el.id != item.id)
     },
-    onSave: () => {
+    onSave: (isPid = false) => {
         return new Promise((resolve) => {
             let count = 0, total = lists.value.length
             let ans = <any>[]
@@ -66,6 +79,9 @@ let methods = {
                     if (flag) {
                         count += 1
                         let formState = (refMap[`ref_${el.id}`] as any).formState
+                        if(isPid) {
+                            formState.pid = el.id
+                        }
                         ans.push(formState)
                         if(total == count) {
                             resolve(ans)
@@ -79,7 +95,7 @@ let methods = {
         if(!data || data.length == 0 || !Array.isArray(data)) {
             return
         }
-        data.map(() => methods.add())
+        data.map((el: any) => methods.add(el.disabled))
 
         setTimeout(() => {
             lists.value.map((el:any, index: number) => {
@@ -110,6 +126,9 @@ let methods = {
     },
     onReset() {
         lists.value = []
+    },
+    getList() {
+        return lists.value.map((el: any) => el.id)
     }
 }
 
@@ -121,8 +140,27 @@ let prop = defineProps({
     borderColor: {
         type: String,
         default: ''
+    },
+    type: {
+        type: String,
+        default: 'bottom'
     }
 })
+
+let slotList = ref<any>([])
+
+watch(
+    prop.formConfig,
+    (value) => {
+        if(value && value.formConfigData.length) {
+            slotList.value = value.formConfigData.filter((el: any) => el.slot).map((el: any) => el.slot)
+        }
+    },
+    {
+        immediate: true,
+        deep: true
+    }
+)
 
 defineExpose({
     add: methods.add,
@@ -132,7 +170,8 @@ defineExpose({
     getValue: methods.getValue,
     getValues: methods.getValues,
     setValue: methods.setFieldValue,
-    onReset: methods.onReset
+    onReset: methods.onReset,
+    getList: methods.getList
 })
 </script>
 

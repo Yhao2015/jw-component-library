@@ -2,7 +2,6 @@
     <el-dialog
         ref="dialogRef"
         v-model="visible"
-        v-bind="$attrs"
         :title="baseDialog.title"
         :width="baseDialog.width"
         :fullscreen="baseDialog.fullscreen"
@@ -16,6 +15,7 @@
         class="jw_dialog"
         :append-to-body="false"
         :before-close="handleClose"
+        v-bind="$attrs"
     >
         <slot name="content"></slot>
         <template #footer v-if="baseDialog.footer">

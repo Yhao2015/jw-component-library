@@ -1,29 +1,29 @@
 <template>
-    <el-table 
-        v-loading="baseConfig.loading" 
-        ref="tableRef" 
-        v-bind="$attrs" 
+    <el-table
+        v-loading="baseConfig.loading"
+        ref="tableRef"
         :data="tableData"
-        :height="baseConfig.height" 
-        :max-height="baseConfig['max-height']" 
+        :height="baseConfig.height"
+        :max-height="baseConfig['max-height']"
         :stripe="baseConfig.stripe"
-        :border="baseConfig.border" 
-        :size="baseConfig.size" 
+        :border="baseConfig.border"
+        :size="baseConfig.size"
         :show-header="baseConfig['show-header']"
-        :highlight-current-row="baseConfig['highlight-current-row']" 
-        :row-class-name="tableRowClassName" 
-        :row-key="baseConfig['row-key']" 
-        :empty-text="baseConfig['empty-text']" 
+        :highlight-current-row="baseConfig['highlight-current-row']"
+        :row-class-name="tableRowClassName"
+        :row-key="baseConfig['row-key']"
+        :empty-text="baseConfig['empty-text']"
         :show-summary="baseConfig['show-summary']"
-        :sum-text="baseConfig['sum-text']" 
+        :sum-text="baseConfig['sum-text']"
         :summary-method="baseConfig['summary-method']"
-        :span-method="baseConfig['span-method']" 
+        :span-method="baseConfig['span-method']"
         :table-layout="baseConfig['table-layout']"
         :show-overflow-tooltip="baseConfig['show-overflow-tooltip']"
         :style="{ width: '100%' }"
-        @selection-change="handleSelectionChange" 
+        @selection-change="handleSelectionChange"
         @current-change="handleCurrentChange"
-        @row-click="handleRowClick" 
+        @row-click="handleRowClick"
+        v-bind="$attrs"
     >
         <el-table-column type="index" :index="indexMethod" width="50" align="center" v-if="baseConfig.index" />
         <template v-if="type">
@@ -45,11 +45,11 @@
         </ColumnList>
     </el-table>
 
-    <my-pagination 
-        :paginationConfig="paginationConfig" 
-        :functions="baseConfig.functions" 
-        v-if="baseConfig.pagination && tableData.length" 
-        :class="['marginT24', baseConfig.paginationClassName]" 
+    <my-pagination
+        :paginationConfig="paginationConfig"
+        :functions="baseConfig.functions"
+        v-if="baseConfig.pagination && tableData.length"
+        :class="['marginT24', baseConfig.paginationClassName]"
     />
 </template>
 

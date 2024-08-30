@@ -12,6 +12,12 @@
     "compClassName": "dialog"
   },
   {
+    "compName": "Drawer",
+    "compZhName": "抽屉",
+    "compDesc": "在保留当前页面状态的情况下，告知用户并承载相关操作",
+    "compClassName": "drawer"
+  },
+  {
     "compName": "Pagination",
     "compZhName": "分页",
     "compDesc": "当数据量过多时，使用分页分解数据",

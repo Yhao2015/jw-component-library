@@ -1,6 +1,11 @@
 <template>
     <div>
-        <my-add-forms :formConfig="formConfig" ref="addFormsRef"/>
+        <my-add-forms :formConfig="formConfig" :functions="functions" ref="addFormsRef" type="bottom">
+            <template #inputRange="scope">
+                {{ scope.data.pid }}
+            </template>
+        </my-add-forms>
+
 
         <el-button type="primary" @click="onSave" :style="{ width: '100%', 'margin-top': '16px' }">保存</el-button>
         <el-button type="primary" @click="onSets" :style="{ width: '100%', 'margin-top': '16px' }">赋值</el-button>
@@ -15,7 +20,8 @@ let formConfig = reactive({
         {
             label: '充电桩编号',
             code: 'dceCode',
-            type: 'input',
+            type: '',
+            slot: 'inputRange',
             show: true,
             required: false,
             disabled: true
@@ -87,9 +93,12 @@ let formConfig = reactive({
             lg: 8,
             xl: 8
         }
-    },
-    functions: {}
+    }
 })
+
+let functions = {
+
+}
 
 let addFormsRef = ref()
 let onSave = () => {
@@ -107,7 +116,8 @@ let onSets = () => {
             ratedP: 100,
             ratedVoltage: 10,
             ratedElectricity: 20,
-            cmSource: null
+            cmSource: null,
+            disabled: true
         },
         {
             dceCode: '2222222',
