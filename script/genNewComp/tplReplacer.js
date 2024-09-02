@@ -62,7 +62,7 @@ const routerTplReplacer = (listFileContent) => {
             return `{
                 title: '${comp.compZhName}',
                 name: '${comp.compName}',
-                path: '/${comp.compName}',
+                path: '/components/${comp.compName}',
                 component: () => import('packages/${comp.compName}/docs/README.md'),
             }`
         })

@@ -18,37 +18,37 @@ const routes = [
     {
         title: '表格',
         name: 'Table',
-        path: '/Table',
+        path: '/components/Table',
         component: () => import('packages/Table/docs/README.md')
     },
     {
         title: '弹框',
         name: 'Dialog',
-        path: '/Dialog',
+        path: '/components/Dialog',
         component: () => import('packages/Dialog/docs/README.md')
     },
     {
         title: '弹框',
         name: 'Drawer',
-        path: '/Drawer',
+        path: '/components/Drawer',
         component: () => import('packages/Drawer/docs/README.md')
     },
     {
         title: '分页',
         name: 'Pagination',
-        path: '/Pagination',
+        path: '/components/Pagination',
         component: () => import('packages/Pagination/docs/README.md')
     },
     {
         title: '表单',
         name: 'Form',
-        path: '/Form',
+        path: '/components/Form',
         component: () => import('packages/Form/docs/README.md')
     },
     {
         title: '新增表单组',
         name: 'AddForms',
-        path: '/AddForms',
+        path: '/components/AddForms',
         component: () => import('packages/AddForms/docs/README.md')
     }
 ]
