@@ -19,21 +19,21 @@
 .widthP100I {
   width: 100% !important;
 }
-[data-v-4bcc5d1f] .el-form-item__label {
+[data-v-4b3d7716] .el-form-item__label {
   display: flex;
   align-items: center;
 }
-.el-form-item[data-v-4bcc5d1f] {
+.el-form-item[data-v-4b3d7716] {
   margin-bottom: var(--itemBottom);
 }
-.el-form--inline .el-form-item[data-v-4bcc5d1f] {
+.el-form--inline .el-form-item[data-v-4b3d7716] {
   margin-right: 8px;
 }
-[data-v-4bcc5d1f] .el-upload--picture-card {
+[data-v-4b3d7716] .el-upload--picture-card {
   display: flex;
   flex-direction: column;
 }
-.hide[data-v-4bcc5d1f] .el-upload--picture-card {
+.hide[data-v-4b3d7716] .el-upload--picture-card {
   display: none !important;
 }
 .jw_dialogPreview .el-dialog__header {
