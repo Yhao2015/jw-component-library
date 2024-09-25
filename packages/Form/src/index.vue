@@ -142,11 +142,13 @@ watch(
             configData.value.map((el: dataProp) => {
                 if(!el.code) return
 
-                // 赋值
+                /* // 赋值
                 // formState[el.code] = el.defaultValue //直接赋值监听之后数据会清空
                 if(Object.keys(formState).length == 0) {
                     formState[el.code] = el.defaultValue
-                }
+                } */
+
+                formState[el.code] = el.defaultValue
 
                 // 必填项
                 rulesRef[el.code] = [] as Array<Object>

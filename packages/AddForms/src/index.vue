@@ -1,21 +1,48 @@
 <template>
     <div class="my-add-forms">
-        <div class="my-flex" v-for="item in lists" :key="item.id">
-            <div class="my-bordered" :style="{ 'border-color': !borderColor ? 'transparent' : borderColor }">
-                <my-form :formConfig="item.formConfig" :ref="(el: any) => setRefMap(el, item)">
-                    <template v-for="slot in slotList" v-slot:[slot]="scope">
-                        <slot :name="slot" :data="scope.data"></slot>
-                    </template>
-                </my-form>
-            </div>
+        <template v-if="drag">
+            <draggable :list="lists" item-key="id">
+                <template #item="{ element }">
+                    <div class="my-flex" :style="{ cursor: 'move' }">
+                        <div class="my-bordered" :style="{ 'border-color': !borderColor ? 'transparent' : borderColor }">
+                            <my-form :formConfig="element.formConfig" :ref="(el: any) => setRefMap(el, element)">
+                                <template v-for="slot in slotList" v-slot:[slot]="scope">
+                                    <slot :name="slot" :data="scope.data"></slot>
+                                </template>
+                            </my-form>
+                        </div>
 
-            <el-space :style="{ 'margin-left': '8px' }">
-                <el-button :disabled="item.disabled" :icon="Minus" type="danger" @click="methods.del(item)" />
-                <template v-if="type == 'right'">
-                    <el-button :icon="Plus" type="primary" :style="{ width: '100%' }" @click="methods.add" />
+                        <el-space :style="{ 'margin-left': '8px' }">
+                            <el-button :disabled="element.disabled" :icon="Minus" type="danger" @click="methods.del(element)" />
+                            <template v-if="type == 'right'">
+                                <el-button :icon="Plus" type="primary" :style="{ width: '100%' }" @click="methods.add" />
+                            </template>
+                        </el-space>
+                    </div>
                 </template>
-            </el-space>
-        </div>
+            </draggable>
+        </template>
+
+        <template v-else>
+            <div class="my-flex" v-for="element in lists" :key="element.id">
+                <div class="my-bordered" :style="{ 'border-color': !borderColor ? 'transparent' : borderColor }">
+                    <my-form :formConfig="element.formConfig" :ref="(el: any) => setRefMap(el, element)">
+                        <template v-for="slot in slotList" v-slot:[slot]="scope">
+                            <slot :name="slot" :data="scope.data"></slot>
+                        </template>
+                    </my-form>
+                </div>
+
+                <el-space :style="{ 'margin-left': '8px' }">
+                    <el-button :disabled="element.disabled" :icon="Minus" type="danger" @click="methods.del(element)" />
+                    <template v-if="type == 'right'">
+                        <el-button :icon="Plus" type="primary" :style="{ width: '100%' }" @click="methods.add" />
+                    </template>
+                </el-space>
+            </div>
+        </template>
+
+
         <slot name="content"></slot>
 
         <template v-if="type == 'bottom'">
@@ -25,6 +52,7 @@
 </template>
 
 <script lang="ts" setup>
+import draggable from "vuedraggable";
 import { ref, watch } from 'vue'
 import { Plus, Minus } from '@element-plus/icons-vue'
 import { cloneDeep } from 'lodash-es'
@@ -38,7 +66,8 @@ let getUuid = () => {
     })
 }
 
-let refMap = <any>{}, refCode = ref<string>('ref')
+let refMap = <any>{},
+    refCode = ref<string>('ref')
 let setRefMap = (el: any, item: any) => {
     if (el) {
         refMap[`${refCode.value}_${item.id}`] = el
@@ -50,7 +79,7 @@ let methods = {
     add: (disabled = false) => {
         let id = getUuid()
         let formConfig = cloneDeep(prop.formConfig)
-        formConfig.formConfigData.forEach((el: any) => el.pid = id)
+        formConfig.formConfigData.forEach((el: any) => (el.pid = id))
 
         let ans = {
             formConfig,
@@ -61,7 +90,7 @@ let methods = {
         lists.value.push(ans)
     },
     del: (item: any) => {
-        if(lists.value.length == 1) {
+        if (lists.value.length == 1) {
             ElMessage({
                 message: '不能删除最后一条记录！',
                 type: 'warning'
@@ -72,18 +101,19 @@ let methods = {
     },
     onSave: (isPid = false) => {
         return new Promise((resolve) => {
-            let count = 0, total = lists.value.length
+            let count = 0,
+                total = lists.value.length
             let ans = <any>[]
             lists.value.map((el: any) => {
-                ;(refMap[`ref_${el.id}`] as any).checkForm().then((flag:Boolean) => {
+                ;(refMap[`ref_${el.id}`] as any).checkForm().then((flag: Boolean) => {
                     if (flag) {
                         count += 1
                         let formState = (refMap[`ref_${el.id}`] as any).formState
-                        if(isPid) {
+                        if (isPid) {
                             formState.pid = el.id
                         }
                         ans.push(formState)
-                        if(total == count) {
+                        if (total == count) {
                             resolve(ans)
                         }
                     }
@@ -92,19 +122,19 @@ let methods = {
         })
     },
     setFieldsValue: (data: any) => {
-        if(!data || data.length == 0 || !Array.isArray(data)) {
+        if (!data || data.length == 0 || !Array.isArray(data)) {
             return
         }
         data.map((el: any) => methods.add(el.disabled))
 
         setTimeout(() => {
-            lists.value.map((el:any, index: number) => {
+            lists.value.map((el: any, index: number) => {
                 refMap[`${refCode.value}_${el.id}`].setFieldsValue(data[index])
             })
         }, 100)
     },
     getValue: (pid: string) => {
-        if(!pid) {
+        if (!pid) {
             pid = lists[0].id
         }
         return (refMap[`ref_${pid}`] as any).formState
@@ -119,10 +149,10 @@ let methods = {
         return ans
     },
     setFieldValue({ pid, key, value }: any) {
-        if(!pid) {
+        if (!pid) {
             pid = lists[0].id
         }
-        (refMap[`ref_${pid}`] as any).formState[key] = value
+        ;(refMap[`ref_${pid}`] as any).formState[key] = value
     },
     onReset() {
         lists.value = []
@@ -144,6 +174,10 @@ let prop = defineProps({
     type: {
         type: String,
         default: 'bottom'
+    },
+    drag: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -152,7 +186,7 @@ let slotList = ref<any>([])
 watch(
     prop.formConfig,
     (value) => {
-        if(value && value.formConfigData.length) {
+        if (value && value.formConfigData.length) {
             slotList.value = value.formConfigData.filter((el: any) => el.slot).map((el: any) => el.slot)
         }
     },

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <my-add-forms :formConfig="formConfig" :functions="functions" ref="addFormsRef" type="bottom">
+        <my-add-forms :formConfig="formConfig" :functions="functions" ref="addFormsRef" type="bottom" :drag="false">
             <template #inputRange="scope">
                 {{ scope.data.pid }}
             </template>

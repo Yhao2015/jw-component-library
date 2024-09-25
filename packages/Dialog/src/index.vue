@@ -22,8 +22,10 @@
             <span class="dialog-footer">
                 <slot name="prefixFooter"></slot>
                 <el-button @click="handleClose"> {{ baseDialog['cancel-text'] || '取消' }} </el-button>
-                <el-button :loading="loading" v-if="baseDialog.type == 'del'" type="danger" @click="handleSave"> {{ baseDialog['save-text'] || '删除' }} </el-button>
-                <el-button :loading="loading" v-else type="primary" @click="handleSave"> {{ baseDialog['save-text'] || '确定' }} </el-button>
+                <template v-if="baseDialog.isSave">
+                    <el-button :loading="loading" v-if="baseDialog.type == 'del'" type="danger" @click="handleSave"> {{ baseDialog['save-text'] || '删除' }} </el-button>
+                    <el-button :loading="loading" v-else type="primary" @click="handleSave"> {{ baseDialog['save-text'] || '确定' }} </el-button>
+                </template>
                 <slot name="suffixFooter"></slot>
             </span>
         </template>
@@ -52,7 +54,8 @@ let baseDialog: dialogProp = {
     'destroy-on-close': true,
     type: '',
     footer: true,
-    loading: false
+    loading: false,
+    isSave: true
 }
 
 const visible = ref(false)

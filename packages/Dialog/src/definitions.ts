@@ -16,6 +16,7 @@ export interface dialogProp {
     type?: string
     footer: boolean
     loading: boolean
+    isSave: boolean
     'cancel-text'?: string
     'save-text'?: string
 }
